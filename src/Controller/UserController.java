@@ -1,6 +1,10 @@
 package Controller;
+
 import Interface.UserInterface;
+import Model.User;
+
 import java.sql.SQLException;
+import java.util.Scanner;
 
 /**
  * Burada Controller yaratdıq və İnterface-i ~implements~ etdik
@@ -13,18 +17,26 @@ import java.sql.SQLException;
 
 public class UserController implements UserInterface {
 
-    /**
-     * Bu method içərisində yeni User yaradacıyıq
-     */
-
     @Override
     public void create() throws SQLException {
 
-    }
+        System.out.println();
 
-    /**
-     * Bu method içərisində
-     */
+        User user = new User();
+        System.out.print("A.S.A daxil edin : ");
+        user.setUsername(new Scanner(System.in).nextLine());
+        System.out.print("Email address daxil edin : ");
+        user.setEmail(new Scanner(System.in).nextLine());
+        System.out.print("Password daxil edin : ");
+        user.setPassword(new Scanner(System.in).nextLine());
+        System.out.print("Role daxil edin : ");
+        user.setRole(new Scanner(System.in).nextLine());
+
+        System.out.println();
+
+        System.out.println("Yeni İstifadəçi yaradıldı ->" + "\n");
+        System.out.println(user.toString());
+    }
 
     @Override
     public void edit() throws SQLException {

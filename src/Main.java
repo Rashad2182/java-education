@@ -1,6 +1,10 @@
-import Model.User;
+import Controller.UserController;
 
-void main() {
-User u = new User(1,"Rashad","gasanov@gmail.com","12345","admin");
-    System.out.println(u);
+import java.sql.SQLException;
+
+void main() throws SQLException {
+
+    UserController userController = new UserController();
+
+    userController.create();
 }

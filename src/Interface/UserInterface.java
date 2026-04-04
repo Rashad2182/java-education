@@ -7,6 +7,7 @@ import java.sql.SQLException;
  * İnterface-in kankret-method olmur hamısı bədənsizdir o üzdən hamısı ~implements~ tələb edir
  * İnterface method-ların hamısının qarşısına Java default olaraq (public abstract) yazılır
  * Interface digər Interface-dən ~extends~ edə bilər
+ * ama İnterface içində ~default~ method-da ola bilər
  */
 
 public interface UserInterface {
@@ -21,4 +22,10 @@ public interface UserInterface {
 
     public void delete() throws SQLException;
 
+    /**
+    * ~default~ method
+     */
+
+    default void  createTable() throws SQLException {
+    }
 }

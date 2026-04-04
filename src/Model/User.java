@@ -88,6 +88,6 @@ public class User {
     @Override
     public String toString() {
 
-        return "username -> " + username + "\n" + "email -> " + email + "\n" + "password -> " + password + "\n" + "role -> " + role;
+        return id + "." + "username -> " + username + "\n" + "email -> " + email + "\n" + "password -> " + password + "\n" + "role -> " + role;
     }
 }
