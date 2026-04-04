@@ -1,9 +1,13 @@
 package Controller;
 
+import Interface.Common;
 import Interface.UserInterface;
 import Model.User;
 
+import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,7 +19,32 @@ import java.util.Scanner;
  * bütün bunları Controller içərisində həyata keçiririk
  */
 
-public class UserController implements UserInterface {
+public class UserController implements UserInterface, Common<User> {
+
+    private static final String FILE_NAME = "Users.txt";
+
+    @Override
+    public List<User> getList() throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public void writeToFile(List<User> user) throws SQLException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(FILE_NAME)))) {
+            out.writeObject(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<User> readFromFile() throws SQLException {
+        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(FILE_NAME)))) {
+            return (List<User>) in.readObject();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 
     @Override
     public void create() throws SQLException {
