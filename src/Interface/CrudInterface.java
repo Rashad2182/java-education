@@ -1,5 +1,9 @@
 package Interface;
+
+import Model.User;
+
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Burada bir İnterface yaratdıq və interface-lərin bütün method-ları bədənsiz olur ona görədə hamısı
@@ -10,22 +14,22 @@ import java.sql.SQLException;
  * ama İnterface içində ~default~ method-da ola bilər
  */
 
-public interface UserInterface {
+public interface CrudInterface {
 
     public void create() throws SQLException;
-
-    public void edit() throws SQLException;
-
-    public void show() throws SQLException;
 
     public void update() throws SQLException;
 
     public void delete() throws SQLException;
 
+    public User getUser() throws SQLException;
+
+    public List<User> getUsers() throws SQLException;
+
     /**
-    * ~default~ method
+     * ~default~ method
      */
 
-    default void  createTable() throws SQLException {
+    default void createTable() throws SQLException {
     }
 }

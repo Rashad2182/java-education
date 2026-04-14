@@ -1,7 +1,7 @@
 package Controller;
 
-import Interface.Common;
-import Interface.UserInterface;
+import Interface.CrudFileInterface;
+import Interface.CrudInterface;
 import Model.User;
 
 import java.io.*;
@@ -19,14 +19,11 @@ import java.util.Scanner;
  * bütün bunları Controller içərisində həyata keçiririk
  */
 
-public class UserController implements UserInterface, Common<User> {
+public class UserController implements CrudFileInterface<User>, CrudInterface {
 
-    private static final String FILE_NAME = "Users.txt";
+    private static final String FILE_NAME = "Status.txt";
 
-    @Override
-    public List<User> getList() throws SQLException {
-        return List.of();
-    }
+    private User user;
 
     @Override
     public void writeToFile(List<User> user) throws SQLException {
@@ -51,7 +48,6 @@ public class UserController implements UserInterface, Common<User> {
 
         System.out.println();
 
-        User user = new User();
         System.out.print("A.S.A daxil edin : ");
         user.setUsername(new Scanner(System.in).nextLine());
         System.out.print("Email address daxil edin : ");
@@ -63,27 +59,34 @@ public class UserController implements UserInterface, Common<User> {
 
         System.out.println();
 
-        System.out.println("Yeni İstifadəçi yaradıldı ->" + "\n");
+        System.out.println("Yeni İstifadəçi yaradıldı : " + "\n");
         System.out.println(user.toString());
     }
 
     @Override
-    public void edit() throws SQLException {
-
-    }
-
-    @Override
-    public void show() throws SQLException {
-
-    }
-
-    @Override
     public void update() throws SQLException {
-
+        System.out.println();
+        if (user.getId() == -1) {
+            user.setUsername(new Scanner(System.in).nextLine());
+            user.setEmail(new Scanner(System.in).nextLine());
+            user.setPassword(new Scanner(System.in).nextLine());
+            user.setRole(new Scanner(System.in).nextLine());
+        }
+        System.out.println(user.toString());
     }
 
     @Override
     public void delete() throws SQLException {
 
+    }
+
+    @Override
+    public User getUser() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<User> getUsers() throws SQLException {
+        return List.of();
     }
 }

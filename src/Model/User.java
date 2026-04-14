@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Enum.Status;
+
 /**
  * Burada bir Model yaratmışıq
  */
@@ -10,12 +12,13 @@ public class User {
     private String email;
     private String password;
     private String role;
-
+    private Status status;
 
     /**
      * Bir ədəd boş Constructor yaradırıq Object yaradanda bizdən yerindəcə məlumatları doldurmağımızı istəməsin
      */
-    public User() {}
+    public User() {
+    }
 
 
     /**
@@ -73,6 +76,13 @@ public class User {
         this.role = role;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     /**
      * Burada Modelin toString method-un yaradırıq
@@ -87,7 +97,7 @@ public class User {
      */
     @Override
     public String toString() {
-
-        return id + "." + "username -> " + username + "\n" + "email -> " + email + "\n" + "password -> " + password + "\n" + "role -> " + role;
+        ++id;
+        return id + " ->" + "\tusername => " + username + "\n" + "\temail => " + email + "\n" + "\tpassword => " + password + "\n" + "\trole => " + role;
     }
 }
