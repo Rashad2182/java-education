@@ -8,7 +8,7 @@ public enum Status {
 
 
      Status(int role) {
-        this.role = role;
+         this.role = role;
     }
 
     public int getRole() {

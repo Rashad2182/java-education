@@ -3,7 +3,6 @@ package Interface;
 import Model.User;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Burada bir İnterface yaratdıq və interface-lərin bütün method-ları bədənsiz olur ona görədə hamısı
@@ -24,7 +23,7 @@ public interface CrudInterface {
 
     public User getUser() throws SQLException;
 
-    public List<User> getUsers() throws SQLException;
+    public void getUsers(User[] users) throws SQLException;
 
     /**
      * ~default~ method

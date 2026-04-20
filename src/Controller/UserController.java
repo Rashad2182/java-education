@@ -7,6 +7,7 @@ import Model.User;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,9 +22,9 @@ import java.util.Scanner;
 
 public class UserController implements CrudFileInterface<User>, CrudInterface {
 
-    private static final String FILE_NAME = "Status.txt";
+    private static final String FILE_NAME = "Users.txt";
 
-    private User user;
+    private User[] users;
 
     @Override
     public void writeToFile(List<User> user) throws SQLException {
@@ -43,36 +44,57 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
         }
     }
 
+    private int idCount = 1;
+
+    private User createUser() {
+        System.out.println();
+        User user = new User();
+        user.setId(idCount++);
+        System.out.print("Enter name  :  ");
+        user.setUsername(new Scanner(System.in).nextLine());
+        System.out.print("Enter email :  ");
+        user.setEmail(new Scanner(System.in).nextLine());
+        System.out.print("Enter password :  ");
+        user.setPassword(new Scanner(System.in).nextLine());
+        System.out.print("Enter status :  ");
+        user.setStatus(new Scanner(System.in).nextInt());
+        if (user.getStatus() < 1 || user.getStatus() > 2) {
+            System.out.println("Invalid role");
+        }
+        return user;
+    }
+
     @Override
     public void create() throws SQLException {
-
-        System.out.println();
-
-        System.out.print("A.S.A daxil edin : ");
-        user.setUsername(new Scanner(System.in).nextLine());
-        System.out.print("Email address daxil edin : ");
-        user.setEmail(new Scanner(System.in).nextLine());
-        System.out.print("Password daxil edin : ");
-        user.setPassword(new Scanner(System.in).nextLine());
-        System.out.print("Role daxil edin : ");
-        user.setRole(new Scanner(System.in).nextLine());
-
-        System.out.println();
-
-        System.out.println("Yeni İstifadəçi yaradıldı : " + "\n");
-        System.out.println(user.toString());
+        System.out.print("How many users will you create?  :  ");
+        int additionalCount = new Scanner(System.in).nextInt();
+        if (users == null) {
+            users = new User[additionalCount];
+            for (int i = 0; i < additionalCount; i++) {
+                System.out.println();
+                users[i] = createUser();
+            }
+        } else if (users != null) {
+            User[] newUsers = new User[users.length + additionalCount];
+            for (int i = 0; i < users.length; i++) {
+                System.out.println();
+                newUsers[i] = users[i];
+            }
+            for (int i = users.length; i < newUsers.length; i++) {
+                System.out.println();
+                newUsers[i] = createUser();
+            }
+            users = newUsers;
+        }
+        System.out.println("\n");
+        getUsers(users);
     }
 
     @Override
     public void update() throws SQLException {
-        System.out.println();
-        if (user.getId() == -1) {
-            user.setUsername(new Scanner(System.in).nextLine());
-            user.setEmail(new Scanner(System.in).nextLine());
-            user.setPassword(new Scanner(System.in).nextLine());
-            user.setRole(new Scanner(System.in).nextLine());
+        for (int i = 0; i < users.length; i++) {
+
         }
-        System.out.println(user.toString());
     }
 
     @Override
@@ -86,7 +108,9 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
     }
 
     @Override
-    public List<User> getUsers() throws SQLException {
-        return List.of();
+    public void getUsers(User[] users) throws SQLException {
+        for (int i = 0; i < users.length; i++) {
+            System.out.println(users[i]);
+        }
     }
 }
