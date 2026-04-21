@@ -40,12 +40,26 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
     }
 
     @Override
-    public List<User> readFromFile() throws SQLException {
-        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(FILE_NAME)))) {
-            return (List<User>) in.readObject();
-        } catch (Exception e) {
-            return new ArrayList<>();
+    public User[] readFromFile() {
+        File file = new File(FILE_NAME);
+        // file yoxdursa boş array qaytar
+        if (!file.exists() || file.length() == 0) {
+            return new User[0];
         }
+        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(FILE_NAME)))) {
+            Object obj = in.readObject();
+            if (obj instanceof User[]) {
+                return (User[]) obj; // 🔥 əsas hissə
+            } else {
+                System.out.println("File format səhvdir!");
+            }
+        } catch (IOException e) {
+            System.out.println("File oxunarkən xəta!");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new User[0];
     }
 
     private int idCount = 1;
@@ -120,10 +134,18 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
     @Override
     public User getUser(int id) throws SQLException {
         try (BufferedReader br = new BufferedReader(new FileReader("Users.txt"))) {
-            if (users == null) System.out.println("User not found");
-            br.lines().forEach(System.out::println);
-            for (User user : users) {
-                if (user.getId() == id) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(".|");
+                int userId = Integer.parseInt(data[0]);
+                if (userId == id) {
+                    User user = new User();
+                    user.setId(userId);
+                    user.setUsername(data[1]);
+                    user.setEmail(data[2]);
+                    user.setPassword(data[3]);
+                    user.setStatus(Integer.parseInt(data[4]));
+
                     System.out.print("\n" + user.getId() + ".");
                     System.out.println("\tusername => " + user.getUsername());
                     System.out.println("\temail => " + user.getEmail());
@@ -132,6 +154,7 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
                     return user;
                 }
             }
+            System.out.println("User not found with id   : " + id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -154,6 +177,7 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
         }
         return users;
     }
+
 //    public User getUser(int id) {
 //        List<User> users = readFromFile();
 //

@@ -7,5 +7,5 @@ public interface CrudFileInterface<T> {
 
     void writeToFile(T t) throws SQLException;
 
-    List<T> readFromFile() throws SQLException;
+    T[] readFromFile() throws SQLException;
 }
