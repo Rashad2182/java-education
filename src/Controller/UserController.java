@@ -7,7 +7,6 @@ import Model.User;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,9 +26,14 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
     private User[] users;
 
     @Override
-    public void writeToFile(List<User> user) throws SQLException {
-        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(FILE_NAME)))) {
-            out.writeObject(user);
+    public void writeToFile(User user) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Users.txt", true))) {
+            writer.write(user.getId() + ". " +
+                    "fullname => " + user.getUsername() + "  |  " +
+                    "email => " + user.getEmail() + "  |  " +
+                    "password => " + user.getPassword() + "  |  " +
+                    "role => " + user.getStatus());
+            writer.newLine();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +50,7 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
 
     private int idCount = 1;
 
-    private User createUser() {
+    private User createUser() throws SQLException {
         System.out.println();
         User user = new User();
         user.setId(idCount++);
@@ -61,6 +65,7 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
         if (user.getStatus() < 1 || user.getStatus() > 2) {
             System.out.println("Invalid role");
         }
+        writeToFile(user);
         return user;
     }
 
@@ -92,25 +97,72 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
 
     @Override
     public void update() throws SQLException {
-        for (int i = 0; i < users.length; i++) {
-
+        System.out.print("Select the user you want to update  :  ");
+        int updateIndex = new Scanner(System.in).nextInt();
+        User user = users[updateIndex - 1];
+        getUser(updateIndex - 1);
+        System.out.print("What part of the user you selected did you want to update? ( username , email , password , role )  :  ");
+        String text = (new Scanner(System.in).nextLine());
+        switch (text) {
+            case "username" -> user.setUsername(new Scanner(System.in).nextLine());
+            case "email" -> user.setEmail(new Scanner(System.in).nextLine());
+            case "password" -> user.setPassword(new Scanner(System.in).nextLine());
+            case "role" -> user.setStatus(new Scanner(System.in).nextInt());
+            default -> System.out.println("Is there a cell you want to update?");
         }
     }
 
     @Override
-    public void delete() throws SQLException {
+    public void delete(int id) throws SQLException {
 
     }
 
     @Override
-    public User getUser() throws SQLException {
+    public User getUser(int id) throws SQLException {
+        try (BufferedReader br = new BufferedReader(new FileReader("Users.txt"))) {
+            if (users == null) System.out.println("User not found");
+            br.lines().forEach(System.out::println);
+            for (User user : users) {
+                if (user.getId() == id) {
+                    System.out.print("\n" + user.getId() + ".");
+                    System.out.println("\tusername => " + user.getUsername());
+                    System.out.println("\temail => " + user.getEmail());
+                    System.out.println("\tpassword => " + user.getPassword());
+                    System.out.println("\trole => " + user.getStatus() + "\n");
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return null;
     }
 
     @Override
-    public void getUsers(User[] users) throws SQLException {
-        for (int i = 0; i < users.length; i++) {
-            System.out.println(users[i]);
+    public User[] getUsers(User[] users) throws SQLException {
+        if (users == null) System.out.println("Users not found");
+        for (User user : users) {
+            if (user != null) {
+                System.out.print(user.getId() + ".");
+                System.out.println("\tusername => " + user.getUsername());
+                System.out.println("\temail => " + user.getEmail());
+                System.out.println("\tpassword => " + user.getPassword());
+                System.out.println("\tstatus => " + user.getStatus());
+                System.out.println();
+            }
         }
+        return users;
     }
+//    public User getUser(int id) {
+//        List<User> users = readFromFile();
+//
+//        for (User user : users) {
+//            if (user.getId() == id) {
+//                return user;
+//            }
+//        }
+//
+//        return null;
+//    }
 }

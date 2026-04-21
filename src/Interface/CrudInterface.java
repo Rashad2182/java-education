@@ -1,7 +1,6 @@
 package Interface;
 
 import Model.User;
-
 import java.sql.SQLException;
 
 /**
@@ -19,11 +18,11 @@ public interface CrudInterface {
 
     public void update() throws SQLException;
 
-    public void delete() throws SQLException;
+    public void delete(int id) throws SQLException;
 
-    public User getUser() throws SQLException;
+    public User getUser(int id) throws SQLException;
 
-    public void getUsers(User[] users) throws SQLException;
+    public User[] getUsers(User[] users) throws SQLException;
 
     /**
      * ~default~ method

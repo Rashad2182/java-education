@@ -2,10 +2,14 @@ package Model;
 
 import Model.Enum.Status;
 
+import java.io.Serializable;
+
 /**
  * Burada bir Model yaratmışıq
  */
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L; // 🔥 tövsiyə olunur
 
     private int id;
     private String username;
