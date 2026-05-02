@@ -1,2 +1,8 @@
-1. fullname => Rashad Gasanov Muzadil  |  email => hesenovresad362@gmail.com  |  password => GasanovRashad21822182  |  role1
-2. fullname => Mehriban Memmedova Faxraddin  |  email => memmedovamehriban1954@gmail.com  |  password => Memmedova1954Mehriban  |  role2
+1.  fullname => Rashad Gasanov Muzadil
+	email => hesenovresad362@gmail.com
+	password => RashadGasanov21822182
+	role => 1
+2.  fullname => Məmmədova Mehriban Faxrəddin
+	email => mehrimammadova@gmail.com
+	password => MehriMammadova1954
+	role => 2

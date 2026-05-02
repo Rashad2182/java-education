@@ -1,5 +1,6 @@
 import Controller.UserController;
 import Interface.CrudInterface;
+import Model.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -21,9 +22,11 @@ public class Main {
             System.out.print("Select the desired operation :  ");
             int menus = new Scanner(System.in).nextInt();
 
+            User[] users = null;
+
             switch (menus) {
                 case 1:
-                    crud.create();
+                   crud.create();
                     break;
                 case 2:
                     crud.update();

@@ -2,12 +2,11 @@ package Controller;
 
 import Interface.CrudFileInterface;
 import Interface.CrudInterface;
+import Interface.FilesInterface;
 import Model.User;
 
 import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -29,10 +28,11 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
     public void writeToFile(User user) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Users.txt", true))) {
             writer.write(user.getId() + ". " +
-                    "fullname => " + user.getUsername() + "  |  " +
-                    "email => " + user.getEmail() + "  |  " +
-                    "password => " + user.getPassword() + "  |  " +
-                    "role => " + user.getStatus());
+                    " fullname => " + user.getUsername() + "\n" +
+                    "\temail => " + user.getEmail() + "\n" +
+                    "\tpassword => " + user.getPassword() + "\n" +
+                    "\trole => " + user.getStatus());
+            System.out.println();
             writer.newLine();
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,6 +68,9 @@ public class UserController implements CrudFileInterface<User>, CrudInterface {
         System.out.println();
         User user = new User();
         user.setId(idCount++);
+        if (idCount >= users.length) {
+
+        }
         System.out.print("Enter name  :  ");
         user.setUsername(new Scanner(System.in).nextLine());
         System.out.print("Enter email :  ");
